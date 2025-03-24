@@ -16,7 +16,7 @@ function LogoutButton() {
 
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    const errorMessage = null;
+    const errorMessage = null
 
     if (!errorMessage) {
       toast.success("You have been successfully logged out");
