@@ -17,7 +17,7 @@ async function Header() {
           boxShadow: shadow,
         }}
     >
-      <SidebarTrigger />
+      <SidebarTrigger className="absolute left-1 top-1"/>
       <Link className="flex items-end gap-2" href="/">
         <Image 
           src="/deez_notes.png" 
