@@ -40,7 +40,7 @@ function SidebarGroupContent({ notes }: Props) {
 
   return (
     <SidebarGroupContentShadCN>
-      <div className="left-1 w-115/118 relative flex items-center">
+      <div className="left-1 w-114/118 relative flex items-center">
         <SearchIcon className="absolute left-2 size-4" />
         <Input
           className="bg-muted pl-8"
