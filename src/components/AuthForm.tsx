@@ -28,8 +28,8 @@ function AuthForm({ type }: Props) {
       const password = formData.get("password") as string
 
       let errorMessage;
-      let title
-      let description
+      let title;
+      let description;
 
       if (isLoginForm) {
        errorMessage = (await loginUserAction(email, password)).errorMessage
