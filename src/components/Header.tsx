@@ -20,7 +20,7 @@ async function Header() {
       <SidebarTrigger className="absolute left-1 top-1"/>
       <Link className="flex items-end gap-2" href="/">
         <Image 
-          src="/deez_notes.png" 
+          src="/Walnut.svg" 
           height={60}
           width={60}
           alt="logo"
