@@ -30,19 +30,12 @@ async function AppSidebar() {
     <Sidebar>
       <SidebarContent className="custom-scrollbar">
         <SidebarGroup />
-        <SidebarGroupLabel className="mb-2 mt-2 text-lg">
-          {user ? (
-            "Your Notes"
-           ) : (
-            <p>
-              <Link href="/login" className="underline">
-                Login
-              </Link>{" "}
-                to see your notes
-              </p>
-           )}
-        </SidebarGroupLabel>
-        {user && <SidebarGroupContent notes={notes} />}
+
+        {/* Search Input and Notes */}
+        <div className="flex flex-col gap-2">
+          {user && <SidebarGroupContent notes={notes} />}
+        </div>
+
         <SidebarGroup />
       </SidebarContent>
     </Sidebar>

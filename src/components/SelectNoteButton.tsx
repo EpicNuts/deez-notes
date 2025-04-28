@@ -73,7 +73,7 @@ function SelectNoteButton({ note }: Props) {
                 ? "opacity-30 group-hover/item:opacity-100"
                   : note.id === noteId
                   ? "opacity-100"
-                  : "opacity-0"
+                  : "opacity-10"
             }
             group-hover/item:opacity-100 
             transition-opacity 

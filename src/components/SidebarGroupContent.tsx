@@ -14,6 +14,7 @@ type Props = {
 }
 
 function SidebarGroupContent({ notes }: Props) {
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false); // state to track the search box
   const [searchText, setSearchText] = useState("");
   const [localNotes, setLocalNotes] = useState(notes);
 
@@ -35,29 +36,89 @@ function SidebarGroupContent({ notes }: Props) {
   const deleteNoteLocally = (noteId: string) => {
     setLocalNotes((prevNotes) => 
       prevNotes.filter((note) => note.id !== noteId)
-  );
+    );
+  };
+
+  const handleSearchIconClick = () => {
+    if (isSearchExpanded) {
+      setSearchText("");
+    }
+    setIsSearchExpanded((prev) => !prev);
   };
 
   return (
     <SidebarGroupContentShadCN>
-      <div className="left-1 w-114/118 relative flex items-center">
-        <SearchIcon className="absolute left-2 size-4" />
-        <Input
-          className="bg-muted pl-8"
-          placeholder="Search your notes..."
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          />
+       {/* Header and Search Input */}
+       <div className="relative">
+        {/* Header Text */}
+        <h2
+          className={`
+            absolute 
+            left-2 
+            text-lg 
+            font-bold 
+            transition-all 
+            duration-400 
+            ${isSearchExpanded 
+              ? "top-0 -translate-y-2" 
+              : "top-8 translate-y-0"
+          }`}
+        >
+          Your Notes
+        </h2>
+
+        {/* Search Input */}
+        <div
+          className={`
+            absolute 
+            right-1 
+            transition-all 
+            duration-500 
+            ${isSearchExpanded 
+              ? "top-8 w-114/118" 
+              : "top-8 w-10"
+          }`}
+        >
+          <div className="relative">
+            <Input
+              className={`bg-muted transition-all duration-500 transform ${
+                isSearchExpanded ? "pl-4 w-full" : "w-10"
+              }`}
+              style={{
+                transformOrigin: "left",
+                position: "absolute",
+                right: 0,
+              }}
+              placeholder={isSearchExpanded ? "Search your notes..." : ""}
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+            <SearchIcon
+              className="
+                absolute 
+                right-2.5
+                top-4 
+                transform 
+                -translate-y-1/2 
+                cursor-pointer
+                size-5
+              "
+              onClick={handleSearchIconClick} // handle click
+            />
+          </div>
+        </div>
       </div>
 
-      <SidebarMenu className="w-114/118 mt-4"> 
+
+      {/* Notes List */}
+      <SidebarMenu className="w-114/118 mt-20"> 
         {filteredNotes.map((note) => (
           <SidebarMenuItem key={note.id} className="group/item left-1">
             <SelectNoteButton note={note} />
-              <DeleteNoteButton 
-                noteId={note.id} 
-                deleteNoteLocally={deleteNoteLocally}
-              />
+            <DeleteNoteButton 
+              noteId={note.id} 
+              deleteNoteLocally={deleteNoteLocally}
+            />
           </SidebarMenuItem>
         ))}
       </SidebarMenu>
