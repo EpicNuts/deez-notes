@@ -92,6 +92,7 @@ function SidebarGroupContent({ notes }: Props) {
               placeholder={isSearchExpanded ? "Search your notes..." : ""}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
+              disabled={!isSearchExpanded}
             />
             <SearchIcon
               className="
