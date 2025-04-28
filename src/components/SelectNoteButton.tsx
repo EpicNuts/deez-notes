@@ -15,11 +15,11 @@ type Props = {
 function SelectNoteButton({ note }: Props) {
   const noteId = useSearchParams().get("noteId") || "";
 
-  const { noteText: selectedNoteText }= useNote();
+  const { noteText: selectedNoteText } = useNote();
   const [shouldUseGlobalNoteText, setShouldUseGlobalNoteText] = useState(false);
   const [localNoteText, setLocalNoteText] = useState(note.text);
-
-  useEffect(() => {
+  
+   useEffect(() => {
     if (noteId === note.id) {
       setShouldUseGlobalNoteText(true);
     } else {
@@ -33,25 +33,65 @@ function SelectNoteButton({ note }: Props) {
     }
   }, [selectedNoteText, shouldUseGlobalNoteText]);
 
+  // Determine what text to display
   const blankNoteText = "EMPTY NOTE";
-  let noteText = localNoteText || blankNoteText;
-  if (shouldUseGlobalNoteText) {
-    noteText = selectedNoteText || blankNoteText;
-  }
+  const isEmptyNote = !localNoteText && !shouldUseGlobalNoteText;
+  const noteText = isEmptyNote
+      ? blankNoteText 
+      : localNoteText || blankNoteText;
+
+
+  // Format the timestamp
+  const formattedTime = new Date(note.updatedAt).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 
   return (
     <SidebarMenuButton 
       asChild
-      className={`items-start gap-0 pr-12 ${note.id === noteId && "bg-sidebar-accent/50"}`}
-      >
-        <Link href={`/?noteId=${note.id}`} className="flex h-fit flex-col">
-        <p className="w-full overflow-hidden truncate text-ellipsis whitespace-nowrap">
-          {noteText}
+      className={`items-start gap-0 pr-12 ${
+        note.id === noteId && "bg-sidebar-accent/50"
+      }`}
+    >
+      <Link href={`/?noteId=${note.id}`} className="flex h-fit flex-col">
+        {/* Display Date and Time */}
+        <p className="text-muted-foreground/70 text-xs">
+        <span>{new Date(note.updatedAt).toLocaleDateString()}  |  </span>
+          <span className="text-muted-foreground/50 text-[0.65rem]">
+            {formattedTime}
+          </span>
         </p>
-        <p className="text-muted-foreground text-xs">
-          {note.updatedAt.toLocaleDateString()}</p>
-        </Link>
-      </SidebarMenuButton> 
+
+        {/* Note Text */}
+        <p 
+          className={`
+            mt-2 
+            px-4 
+            ${
+              isEmptyNote
+                ? "opacity-30 group-hover/item:opacity-100"
+                  : note.id === noteId
+                  ? "opacity-100"
+                  : "opacity-0"
+            }
+            group-hover/item:opacity-100 
+            transition-opacity 
+            duration-1000 
+            ease-out 
+            w-full 
+            overflow-hidden 
+            truncate 
+            text-ellipsis 
+            whitespace-nowrap 
+            group-hover/item:duration-200 
+            group-hover/item:ease-in
+          `}
+        >
+          {noteText.length > 100 ? `${noteText.slice(0, 100)}...` : noteText}
+        </p>
+      </Link>
+    </SidebarMenuButton> 
   )
 }
 
