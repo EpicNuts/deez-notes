@@ -25,20 +25,17 @@ type Props = {
 };
 
 function DeleteNoteButton({ noteId, deleteNoteLocally }: Props) {
-
   const router = useRouter()
   const noteIdParam = useSearchParams().get("noteId") || "";
 
   const [isPending, startTransition] = useTransition()
   
   const handleDeleteNote = () => {
-
     startTransition(async () => {
       const {errorMessage} = await deleteNoteAction(noteId)
 
       if (!errorMessage) {
         toast.success("aaaand, it's gone.")
-      
         deleteNoteLocally(noteId);
 
         if (noteId === noteIdParam) {
@@ -54,13 +51,11 @@ function DeleteNoteButton({ noteId, deleteNoteLocally }: Props) {
     <AlertDialog>
   <AlertDialogTrigger asChild>
     <Button
-    className="absolute right-2 top-1/2 size-7 -translate-y-1/2 p-0 opacity-0 group-hover/item:opacity-100 [&_svg]:size-3"
+    className="absolute right-2 top-1/2 size-7 -translate-y-1/2 p-0 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 [&_svg]:size-3"
     variant="ghost"
     >
       <Trash2 />
-    </Button>
-    
-    
+    </Button>    
     </AlertDialogTrigger>
   <AlertDialogContent>
     <AlertDialogHeader>
