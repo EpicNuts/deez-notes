@@ -52,28 +52,13 @@ function SidebarGroupContent({ notes }: Props) {
 
       <SidebarMenu className="w-114/118 mt-4"> 
         {filteredNotes.map((note) => (
-         <SidebarMenuItem
-         key={note.id}
-         className="group/item relative transition-all duration-300 hover:h-32 h-16 overflow-hidden bg-muted rounded-lg shadow-md"
-       >
-         {/* Date Display */}
-         <div className="absolute top-2 left-2">
-           <p className="text-sm font-medium text-primary">{new Date(note.createdAt).toLocaleDateString()}</p>
-         </div>
-   
-         {/* Note Snippet (Hidden by Default, Visible on Hover) */}
-         <div className="absolute inset-x-0 bottom-2 px-4 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
-           <p className="text-xs text-muted">{note.text}</p>
-         </div>
-   
-         {/* Delete Button (Visible on Hover) */}
-         <div className="absolute top-2 right-2 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300">
-           <DeleteNoteButton
-             noteId={note.id}
-             deleteNoteLocally={deleteNoteLocally}
-           />
-         </div>
-       </SidebarMenuItem>
+          <SidebarMenuItem key={note.id} className="group/item left-1">
+            <SelectNoteButton note={note} />
+              <DeleteNoteButton 
+                noteId={note.id} 
+                deleteNoteLocally={deleteNoteLocally}
+              />
+          </SidebarMenuItem>
         ))}
       </SidebarMenu>
     </SidebarGroupContentShadCN>
