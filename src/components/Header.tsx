@@ -32,6 +32,7 @@ async function Header() {
         </h1>  
       </Link>
 
+
       <div className="flex gap-4">
         {user ? (
           <LogoutButton />
@@ -50,6 +51,13 @@ async function Header() {
           </Button>
           </>
         )}
+
+        <Button asChild variant="outline">
+          <Link href="/faq">
+            FAQ
+          </Link>
+        </Button>
+
         <DarkModeToggle />
       </div>
     </header>
