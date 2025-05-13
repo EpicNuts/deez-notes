@@ -37,11 +37,11 @@ function NoteTextInput({ noteId, startingNoteText }: Props) {
 
   return (
     <Textarea
-    value={noteText}
-    onChange={handleUpdateNote}
-    placeholder="Type your notes here..."
-    className="custom-scrollbar mb-4 h-full max-w-4xl resize-none border p-4 focus-visible:ring-0 focus-visible:ring-offset-0"
-     />
+      value={noteText}
+      onChange={handleUpdateNote}
+      placeholder="Type your notes here..."
+      className="custom-scrollbar mb-4 h-full max-w-4xl resize-none border p-4 focus-visible:ring-0 focus-visible:ring-offset-0"
+    />
   )
 }
 
