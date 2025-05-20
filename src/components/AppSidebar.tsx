@@ -30,6 +30,18 @@ async function AppSidebar() {
     <Sidebar>
       <SidebarContent className="custom-scrollbar">
         <SidebarGroup />
+          {user ? ( null ) : (
+            <p 
+              className="text-center"
+              data-cy="sidebar-unauthenticated-text"
+            >
+              <Link href="/login" className="underline">
+                Login
+              </Link>{" "}
+                to see your notes
+              </p>
+           ) 
+          }
 
         {/* Search Input and Notes */}
         <div className="flex flex-col gap-2">

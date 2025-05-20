@@ -53,10 +53,14 @@ function SelectNoteButton({ note }: Props) {
       className={`items-start gap-0 pr-12 ${
         note.id === noteId && "bg-sidebar-accent/50"
       }`}
+      data-cy={`select-note-button ${note.id}`}
     >
       <Link href={`/?noteId=${note.id}`} className="flex h-fit flex-col">
         {/* Display Date and Time */}
-        <p className="text-muted-foreground/70 text-xs">
+        <p 
+          className="text-muted-foreground/70 text-xs"
+          data-cy="note-date"
+        >
         <span>{new Date(note.updatedAt).toLocaleDateString()}  |  </span>
           <span className="text-muted-foreground/50 text-[0.65rem]">
             {formattedTime}
@@ -87,6 +91,7 @@ function SelectNoteButton({ note }: Props) {
             group-hover/item:duration-200 
             group-hover/item:ease-in
           `}
+          data-cy="note-text"
         >
           {noteText.length > 100 ? `${noteText.slice(0, 100)}...` : noteText}
         </p>
