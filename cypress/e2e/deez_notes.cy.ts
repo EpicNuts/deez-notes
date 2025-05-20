@@ -1,6 +1,7 @@
 describe('validate Deez Notes app', () => {
+  
   beforeEach(() => {
-    cy.visit('localhost:3000')
+    cy.visit('/')
   })
   
   context('validate initial landing page state', () => {
@@ -44,7 +45,8 @@ describe('validate Deez Notes app', () => {
 
   context('sign up', () => {
     beforeEach(() => {
-      cy.visit('localhost:3000/sign-up')
+      cy.get('[href="/sign-up"]').should('contain', 'Sign Up').click()
+      cy.url().should('include', '/sign-up')
     })
 
     it('sign up form validation', () => {
@@ -65,7 +67,8 @@ describe('validate Deez Notes app', () => {
 
   context('login', () => {
     beforeEach(() => {
-      cy.visit('localhost:3000/login')
+      cy.get('[data-cy="header"] [href="/login"]').should('contain', 'Login').click()
+      cy.url().should('include', '/login')
     })
 
     it('login form validation', () => {
@@ -85,11 +88,15 @@ describe('validate Deez Notes app', () => {
     })
   })
 
-  // context.skip('faq', () => {
-  //   it('passes', () => {
-  //     cy.visit('localhost:3000/faq')
-  //     cy.get('[data-cy="faq-form"]').should('exist')
-  //     cy.get('[data-cy="faq-email"]').type('')
-  //   })
-  // })
+  context.skip('faq', () => {
+    beforeEach(() => {
+      cy.get('[href="/faq"]').should('contain', 'FAQ').click()
+      cy.url().should('include', '/faq')
+    })
+
+    it('passes', () => {
+      cy.get('[data-cy="faq-form"]').should('exist')
+      cy.get('[data-cy="faq-email"]').type('')
+    })
+  })
 })

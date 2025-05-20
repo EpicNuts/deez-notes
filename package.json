@@ -7,7 +7,9 @@
     "build": "npx prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "npx prisma generate && env $(cat .env.local | xargs) npx prisma migrate dev"
+    "migrate": "npx prisma generate && env $(cat .env.local | xargs) npx prisma migrate dev",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "prisma": {
     "schema": "src/db/schema.prisma"

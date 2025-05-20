@@ -16,6 +16,7 @@ async function Header() {
         style={{
           boxShadow: shadow,
         }}
+        data-cy="header"
     >
       <SidebarTrigger 
         className="absolute left-1 top-1"
