@@ -17,18 +17,28 @@ async function Header() {
           boxShadow: shadow,
         }}
     >
-      <SidebarTrigger className="absolute left-1 top-1"/>
-      <Link className="flex items-end gap-2" href="/">
+      <SidebarTrigger 
+        className="absolute left-1 top-1"
+        data-cy="sidebar-trigger"
+      />
+      <Link 
+        className="flex items-end gap-2" href="/"
+        data-cy="logo-link"
+        >
         <Image 
           src="/Walnut.svg" 
           height={60}
           width={60}
           alt="logo"
           className="rounded-full"
+          data-cy="logo"
           priority
         />
-        <h1 className="flex flex-col pb-1 text-2xl font-semibold leading-6">
-          DEEZ <span>Notes</span>
+        <h1 
+          className="flex flex-col pb-1 text-2xl font-semibold leading-6"
+          data-cy="logo-text"
+        >
+        DEEZ <span>Notes</span>
         </h1>  
       </Link>
 

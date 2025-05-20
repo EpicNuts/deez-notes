@@ -40,6 +40,7 @@ function NewNoteButton({ user }: Props) {
       variant="secondary"
       className="w-24"
       disabled={loading}
+      data-cy="new-note-button"
     >
       {loading ? <Loader2 className="animate-spin" /> : "New Note"}
     </Button>

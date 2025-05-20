@@ -94,7 +94,10 @@ function AskAIButton({ user }:Props) {
   return (
     <Dialog open={open} onOpenChange={handleOnOpenChange}>
     <DialogTrigger asChild>
-      <Button variant="secondary">Ask AI</Button>
+      <Button 
+        variant="secondary"
+        data-cy="ask-ai-button"
+      >Ask AI</Button>
     </DialogTrigger>
     <DialogContent 
       className="custom-scrollbar flex h-[85vh] max-w-4xl flex-col overflow-y-auto"
