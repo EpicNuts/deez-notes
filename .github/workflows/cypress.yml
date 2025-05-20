@@ -1,0 +1,31 @@
+name: run cypress tests
+
+on: [push, deployment, deployment_status]
+jobs:
+  e2e:
+    # only run this job on successful deploy to the vercel preview env
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Print URL
+        run: echo Vercel Preview Env URL ${{ github.event.deployment_status.target_url }}
+      
+      - name: Run Cypress
+        uses: cypress-io/github-action@v6
+        env:
+          CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
+          CYPRESS_VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
