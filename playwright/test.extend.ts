@@ -5,7 +5,7 @@ const VERCEL_AUTOMATION_BYPASS_SECRET = process.env.VERCEL_AUTOMATION_BYPASS_SEC
 export const test = base.extend({});
 
 test.beforeEach(async ({ page }) => {
-  await page.route('**', async (route, request) => {
+  await page.route('/', async (route, request) => {
     const headers = {
       ...request.headers(),
       'x-vercel-protection-bypass': VERCEL_AUTOMATION_BYPASS_SECRET,
