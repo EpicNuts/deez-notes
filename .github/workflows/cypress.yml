@@ -1,8 +1,8 @@
-name: run cypress tests
+name: Cypress Tests
 
 on: [push, deployment, deployment_status]
 jobs:
-  e2e:
+  cy-e2e:
     # only run this job on successful deploy to the vercel preview env
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
