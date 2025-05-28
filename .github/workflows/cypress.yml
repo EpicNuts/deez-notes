@@ -1,6 +1,6 @@
 name: Cypress Tests
 
-on: [push, deployment, deployment_status]
+on: [deployment_status]
 jobs:
   cy-e2e:
     # only run this job on successful deploy to the vercel preview env
