@@ -33,7 +33,7 @@ async function AppSidebar() {
           {user ? ( null ) : (
             <p 
               className="text-center"
-              data-cy="sidebar-unauthenticated-text"
+              data-testid="sidebar-unauthenticated-text"
             >
               <Link href="/login" className="underline">
                 Login

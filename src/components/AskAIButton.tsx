@@ -96,7 +96,7 @@ function AskAIButton({ user }:Props) {
     <DialogTrigger asChild>
       <Button 
         variant="secondary"
-        data-cy="ask-ai-button"
+        data-testid="ask-ai-button"
       >Ask AI</Button>
     </DialogTrigger>
     <DialogContent 

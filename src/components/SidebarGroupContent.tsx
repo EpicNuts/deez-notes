@@ -48,7 +48,7 @@ function SidebarGroupContent({ notes }: Props) {
 
   return (
     <SidebarGroupContentShadCN
-      data-cy="sidebar-group-content"
+      data-testid="sidebar-group-content"
     >
         {/* Header and Search Input */}
         <div className="relative">
@@ -116,7 +116,7 @@ function SidebarGroupContent({ notes }: Props) {
       {/* Notes List */}
       <SidebarMenu 
         className="w-114/118 mt-20"
-        data-cy="notes-list"
+        data-testid="notes-list"
         > 
         {filteredNotes.map((note) => (
           <SidebarMenuItem key={note.id} className="group/item left-1">
@@ -124,7 +124,7 @@ function SidebarGroupContent({ notes }: Props) {
             <DeleteNoteButton 
               noteId={note.id} 
               deleteNoteLocally={deleteNoteLocally}
-              data-cy="delete-note-button"
+              data-testid="delete-note-button"
             />
           </SidebarMenuItem>
         ))}

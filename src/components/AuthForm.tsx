@@ -53,7 +53,7 @@ function AuthForm({ type }: Props) {
 
   return (
     <form action={handleSubmit}>
-        <CardContent data-cy="auth-form" className="grid w-full items-center gap-4">
+        <CardContent data-testid="auth-form" className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -77,9 +77,9 @@ function AuthForm({ type }: Props) {
                 />
             </div>
         </CardContent>
-        <CardFooter data-cy="auth-form-footer" className="mt-4 flex flex-col gap-6">
+        <CardFooter data-testid="auth-form-footer" className="mt-4 flex flex-col gap-6">
           <Button 
-          data-cy={isLoginForm ? "login-button" : "sign-up-button"}
+          data-testid={isLoginForm ? "login-button" : "sign-up-button"}
           className="w-full">
             {isPending ? (
               <Loader2 className="animate-spin" />
@@ -94,7 +94,7 @@ function AuthForm({ type }: Props) {
               ? "Don't have an account yet?"
               : "Already have an account?"}{" "}
             <Link 
-              data-cy="auth-form-link"
+              data-testid="auth-form-link"
               href={isLoginForm ? "/sign-up" : "/login"} 
               className={`text-blue-500 underline ${isPending ? "pointer-events-none opacity-50" : ""}`}
             >

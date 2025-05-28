@@ -41,7 +41,7 @@ function NoteTextInput({ noteId, startingNoteText }: Props) {
       onChange={handleUpdateNote}
       placeholder="Type your notes here..."
       className="custom-scrollbar mb-4 h-full max-w-4xl resize-none border p-4 focus-visible:ring-0 focus-visible:ring-offset-0"
-      data-cy="note-text-input"
+      data-testid="note-text-input"
     />
   )
 }

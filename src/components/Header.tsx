@@ -16,15 +16,15 @@ async function Header() {
         style={{
           boxShadow: shadow,
         }}
-        data-cy="header"
+        data-testid="header"
     >
       <SidebarTrigger 
         className="absolute left-1 top-1"
-        data-cy="sidebar-trigger"
+        data-testid="sidebar-trigger"
       />
       <Link 
         className="flex items-end gap-2" href="/"
-        data-cy="logo-link"
+        data-testid="logo-link"
         >
         <Image 
           src="/Walnut.svg" 
@@ -32,12 +32,12 @@ async function Header() {
           width={60}
           alt="logo"
           className="rounded-full"
-          data-cy="logo"
+          data-testid="logo"
           priority
         />
         <h1 
           className="flex flex-col pb-1 text-2xl font-semibold leading-6"
-          data-cy="logo-text"
+          data-testid="logo-text"
         >
         DEEZ <span>Notes</span>
         </h1>  
@@ -50,12 +50,16 @@ async function Header() {
         ) :
         (
           <>
-          <Button asChild>
+          <Button 
+            data-testid='signup-button'
+            asChild>
             <Link href="/sign-up" className="hidden sm:block">
               Sign Up
             </Link>
           </Button>
-          <Button asChild variant="outline">
+          <Button 
+            data-testid='login-button'
+            asChild variant="outline">
             <Link href="/login">
               Login
             </Link>
@@ -63,7 +67,9 @@ async function Header() {
           </>
         )}
 
-        <Button asChild variant="outline">
+        <Button 
+          data-testid='faq-button'
+          asChild variant="outline">
           <Link href="/faq">
             FAQ
           </Link>
