@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Deez Notes
 
-## Getting Started
+_Deez Notes_ is a demonstration web application built with [Next.js](https://nextjs.org), designed as a portfolio project to showcase my skills in **end-to-end testing** (Cypress & Playwright), **CI/CD automation**, and modern web application development.
 
-First, run the development server:
+> **Note:** This project is a work in progress and serves as a living example of my technical abilities.
+
+---
+
+## 🚀 Purpose
+
+- **Portfolio:** This repository is primarily a showcase of my ability to build, test, and deploy a modern web application.
+- **Testing:** Demonstrates comprehensive E2E testing using both [Cypress](https://www.cypress.io/) and [Playwright](https://playwright.dev/).
+- **CI/CD:** Includes examples of automated testing and deployment pipelines.
+- **Web Development:** Built with Next.js, TypeScript, Prisma, and Tailwind CSS.
+
+---
+
+## 🛠️ Features
+
+- **Note-taking web app** with authentication
+- Responsive UI using Tailwind CSS
+- E2E tests with Cypress and Playwright
+- Example CI/CD workflows (GitHub Actions)
+- Modular, modern codebase (TypeScript, Next.js App Router)
+- Example API endpoints and database integration (Prisma/Postgres)
+- Under active development — new features and improvements coming soon!
+
+---
+
+## 🧑‍💻 Getting Started
+
+Clone the repo and run the development server:
 
 ```bash
+git clone https://github.com/your-username/deez-notes.git
+cd deez-notes
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧪 Testing
 
-## Learn More
+### Cypress
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run cypress
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Playwright
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npx playwright test
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📦 Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is ready for deployment on [Vercel](https://vercel.com/) or any platform supporting Next.js.
+
+---
+
+## 📚 Learn More
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Cypress Documentation](https://docs.cypress.io/)
+- [Playwright Documentation](https://playwright.dev/docs/intro)
+- [GitHub Actions](https://docs.github.com/en/actions)
+
+---
+
+## 👋 About
+
+This project is a living portfolio. Feedback, suggestions, and contributions are welcome!
+
+---
