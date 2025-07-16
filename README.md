@@ -17,13 +17,16 @@ _Deez Notes_ is a demonstration web application built with [Next.js](https://nex
 
 ## 🛠️ Features
 
-- **Note-taking web app** with authentication
-- Responsive UI using Tailwind CSS
-- E2E tests with Cypress and Playwright
-- Example CI/CD workflows (GitHub Actions)
-- Modular, modern codebase (TypeScript, Next.js App Router)
-- Example API endpoints and database integration (Prisma/Postgres)
-- Under active development — new features and improvements coming soon!
+**[Deez-Notes!](https://deez-notes-omega.vercel.app/):** A note-taking web-app that harnesses **ChatGPT** to generate note-summaries and interact with your notes in new and exciting ways.
+- Deployed with **Vercel**
+- Authenticated by **Supabase** 
+- Tested with **Cypress** and **Playwright** (Postman/Neumann coming soon!)
+- CI/CD workflows with **[GitHub Actions](https://github.com/EpicNuts/deez-notes/actions)**
+- Modular, modern codebase (**TypeScript**, **Next.js** App Router)
+- Responsive UI using **Tailwind CSS**
+- Example API endpoints and database integration (**Prisma/Postgres**)
+
+***Under active development — new features and improvements coming soon!***
 
 ---
 
@@ -32,7 +35,7 @@ _Deez Notes_ is a demonstration web application built with [Next.js](https://nex
 Clone the repo and run the development server:
 
 ```bash
-git clone https://github.com/your-username/deez-notes.git
+git clone https://github.com/EpicNuts/deez-notes.git
 cd deez-notes
 npm install
 npm run dev
