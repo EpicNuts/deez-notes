@@ -17,7 +17,7 @@ _Deez Notes_ is a demonstration web application built with [Next.js](https://nex
 
 ## 🛠️ Features
 
-**[Deez-Notes!](https://deez-notes-omega.vercel.app/):** A note-taking web-app that harnesses **ChatGPT** to generate note-summaries and interact with your notes in new and exciting ways.
+**[Deez-Notes!](https://deez-notes-omega.vercel.app/)** A note-taking web-app that harnesses **ChatGPT** to generate note-summaries and interact with your notes in new and exciting ways.
 - Deployed with **Vercel**
 - Authenticated by **Supabase** 
 - Tested with **Cypress** and **Playwright** (Postman/Neumann coming soon!)
