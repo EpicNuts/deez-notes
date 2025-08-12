@@ -3,13 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+
     "dev": "next dev --turbopack",
-    "build": "npx prisma generate && next build",
     "start": "next start",
+    "build": "npx prisma generate && next build",
     "lint": "next lint",
     "migrate": "npx prisma generate && env $(cat .env.local | xargs) npx prisma migrate dev",
+
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress": "cypress run",
+
+    "playwright": "playwright test",
+
+    "e2e": "npm run cypress && npm run playwright"
   },
   "prisma": {
     "schema": "src/db/schema.prisma"
