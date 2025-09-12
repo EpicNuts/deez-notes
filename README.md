@@ -30,48 +30,121 @@ _Deez Notes_ is a demonstration web application built with [Next.js](https://nex
 
 ---
 
-## 🧑‍💻 Getting Started
+## 🚀 Deployment Overview
 
-Clone the repo and run the development server:
+This project uses **Vercel** for production hosting and supports easy local development and deployment.
 
-```bash
-git clone https://github.com/EpicNuts/deez-notes.git
-cd deez-notes
-npm install
-npm run dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+### 🏠 Local Development & Deployment
+
+To run the app locally:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/EpicNuts/deez-notes.git
+   cd deez-notes
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables:**
+   - Copy `.env.example` to `.env.local` (if available) and fill in required values (e.g., database connection, Supabase keys).
+   - Make sure `.env.local` is **not** committed to git.
+
+4. **Run database migrations and generate Prisma client:**
+   ```bash
+   npm run migrate
+   ```
+
+5. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+   - The app will be available at [http://localhost:3000](http://localhost:3000).
+
+---
+
+### 🌍 Production Deployment
+
+- **Platform:** [Vercel](https://vercel.com/)
+- **Production URL:** [https://deez-notes-omega.vercel.app/](https://deez-notes-omega.vercel.app/)
+- **Branch:** The main branch is automatically deployed to production.
+- **CI/CD:** GitHub Actions run automated tests (Cypress, Playwright, linting, build) on every push or pull request. Only successful builds are deployed.
+
+#### **How Production Deployments Work**
+- Pushes to the `main` branch trigger a Vercel deployment.
+- Vercel builds the app, runs migrations, and hosts the latest version.
+- Environment variables for production are managed via the Vercel dashboard (never committed to git).
+
+---
+
+### 🧑‍💻 Useful Scripts
+
+- `npm run build`       Generates the Prisma Client and builds the Application
+- `npm run migrate`     Ensures your Prisma Client is up to date and your local database schema matches your code, using the environment variables from [.env.local](/.env.local).
+- `npm run lint`        Executes Next.js’s built-in ESLint integration to check for styling issues.
+
+- `npm run dev`         Start the development server, which utilizes [Turbopack](https://turbo.build/pack) for a faster refresh and hot reloading.
+- `npm run start`       Start the production server
+
+- `npm run playwright`  Run Playwright tests
+- `npm run cypress`     Run Cypress tests in headless mode
+- `npm run e2e`         Run Cypress and Playwright tests sequentially
+
+---
+
+### 📝 Notes
+
+- **Environment variables:** Store secrets and config in `.env.local` for local development and in Vercel’s dashboard for production.
+- **Database:** Uses Prisma ORM with Postgres. Ensure your database is running and accessible for local development.
+- **Authentication:** Uses Supabase; set up your Supabase project and keys as needed.
 
 ---
 
 ## 🧪 Testing
 
-### Cypress
+This repo has a number of different test types targeting both a local development environment, and a fully deployed instance on Vercel. 
+
+### UAT, Feature, E2E
+
+#### Cypress
 
 ```bash
-npm cypress test
+npm run cypress
 ```
 
-### Playwright
+#### Playwright
 
 ```bash
-npx playwright test
+npm run playwright
 ```
 
----
+#### E2E
+Launch the Cypress and Playwright tests sequentially
+```bash
+npm run e2e
+```
 
-## 📦 Deployment
+### Performance testing with K6
 
-This project is ready for deployment on [Vercel](https://vercel.com/) or any platform supporting Next.js.
+```bash
+export $(cat .env.local | xargs)^C
 
+k6 run -e LOAD_TEST_USERID=<load-test-userId> ./k6/loadtests/<load-test>.js
+```
 ---
 
 ## 📚 Learn More
 
 - [Next.js Documentation](https://nextjs.org/docs)
+- [Vercel documentation](https://vercel.com/docs) 
 - [Cypress Documentation](https://docs.cypress.io/)
 - [Playwright Documentation](https://playwright.dev/docs/intro)
+- [Grafana K6 Documentation](https://grafana.com/docs/k6/latest/testing-guides/api-load-testing/)
 - [GitHub Actions](https://docs.github.com/en/actions)
 
 ---
@@ -82,15 +155,3 @@ This project is a living portfolio. Feedback, suggestions, and contributions are
 
 ---
 
-## Scripts
-
-- `npm run build` Generates the Prisma Client and builds the Application
-- `npm run migrate`  Ensures your Prisma Client is up to date and your local database schema matches your code, using the environment variables from [.env.local](/.env.local).
-- `npm run lint` Executes Next.js’s built-in ESLint integration to check for styling issues.
-
-- `npm run dev` Start the development server, which utilizes [Turbopack](https://turbo.build/pack) for a faster refresh and hot reloading.
-- `npm run start` Start the production server
-
-- `npm run playwright` Run Playwright tests
-- `npm run cypress` Run Cypress tests in headless mode
-- `npm run e2e` Run Cypress and Playwright tests sequentially
