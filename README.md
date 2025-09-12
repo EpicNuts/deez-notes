@@ -8,8 +8,8 @@ _Deez Notes_ is a demonstration web application built with [Next.js](https://nex
 
 ## 🚀 Purpose
 
-- **Portfolio:** This repository is primarily a showcase of my ability to build, test, and deploy a modern web application.
-- **Testing:** Demonstrates comprehensive E2E testing using both [Cypress](https://www.cypress.io/) and [Playwright](https://playwright.dev/).
+- **Portfolio:** This repository is primarily a showcase of my ability to build a modern web app a bit more complex than just "Hello World", test the heck out of it, and integrate those tests into a deployment pipeline, CI/CD style.
+- **Testing:** I want comprehensive E2E testing using both [Cypress](https://www.cypress.io/) and [Playwright](https://playwright.dev/). I'll also be using Grafana k6 to dip into performance testing. 
 - **CI/CD:** Includes examples of automated testing and deployment pipelines.
 - **Web Development:** Built with Next.js, TypeScript, Prisma, and Tailwind CSS.
 
@@ -52,8 +52,8 @@ To run the app locally:
    ```
 
 3. **Set up environment variables:**
-   - Copy `.env.example` to `.env.local` (if available) and fill in required values (e.g., database connection, Supabase keys).
-   - Make sure `.env.local` is **not** committed to git.
+   - Create `.env.local` and copy the contents of `.env.example`. Fill in required values (e.g., database connection, Supabase keys, OpenAI api keys etc.).
+   - Ensure `.env.local` is **not** committed to git.
 
 4. **Run database migrations and generate Prisma client:**
    ```bash
@@ -64,7 +64,7 @@ To run the app locally:
    ```bash
    npm run dev
    ```
-   - The app will be available at [http://localhost:3000](http://localhost:3000).
+   The app will be available at **[http://localhost:3000](http://localhost:3000)**.
 
 ---
 
@@ -73,7 +73,7 @@ To run the app locally:
 - **Platform:** [Vercel](https://vercel.com/)
 - **Production URL:** [https://deez-notes-omega.vercel.app/](https://deez-notes-omega.vercel.app/)
 - **Branch:** The main branch is automatically deployed to production.
-- **CI/CD:** GitHub Actions run automated tests (Cypress, Playwright, linting, build) on every push or pull request. Only successful builds are deployed.
+- **CI/CD:** GitHub Actions run automated tests (Cypress, Playwright, linting, build) on every pull request. Only successful builds are deployed.
 
 #### **How Production Deployments Work**
 - Pushes to the `main` branch trigger a Vercel deployment.
@@ -84,16 +84,14 @@ To run the app locally:
 
 ### 🧑‍💻 Useful Scripts
 
-- `npm run build`       Generates the Prisma Client and builds the Application
-- `npm run migrate`     Ensures your Prisma Client is up to date and your local database schema matches your code, using the environment variables from [.env.local](/.env.local).
-- `npm run lint`        Executes Next.js’s built-in ESLint integration to check for styling issues.
-
-- `npm run dev`         Start the development server, which utilizes [Turbopack](https://turbo.build/pack) for a faster refresh and hot reloading.
-- `npm run start`       Start the production server
-
-- `npm run playwright`  Run Playwright tests
-- `npm run cypress`     Run Cypress tests in headless mode
-- `npm run e2e`         Run Cypress and Playwright tests sequentially
+`npm run build`      Generates the Prisma Client and builds the Application
+`npm run migrate`    Ensures your Prisma Client is up to date and your local database schema matches your code, using the environment variables from [.env.local](/.env.local).|
+`npm run lint`       Executes Next.js’s built-in ESLint integration to check for styling issues.
+`npm run dev`        Start the development server, which utilizes [Turbopack](https://turbo.build/pack) for a faster refresh and hot reloading.
+`npm run start`      Start the production server
+`npm run playwright` Run Playwright tests
+`npm run cypress`    Run Cypress tests in headless mode
+`npm run e2e`        Run Cypress and Playwright tests sequentially
 
 ---
 
@@ -129,13 +127,24 @@ Launch the Cypress and Playwright tests sequentially
 npm run e2e
 ```
 
-### Performance testing with K6
+### Performance testing with K6 (Cloud)
+
+First, export the relevant variables from your `.env.local` file:
 
 ```bash
-export $(cat .env.local | xargs)^C
-
-k6 run -e LOAD_TEST_USERID=<load-test-userId> ./k6/loadtests/<load-test>.js
+export $(grep -E '^(LOAD_TEST_USERID|LOCAL_HOST)=' .env.local | xargs)
 ```
+
+Then, run your k6 test (replace `<load-test>.js` with your test file):
+
+```bash
+k6 cloud run --local-execution -e LOAD_TEST_USERID=$LOAD_TEST_USERID -e BASE_URL=$LOCAL_HOST k6/loadtests/<load-test>.js
+```
+
+- `LOAD_TEST_USERID` is your test user’s ID.
+- `BASE_URL` targets the local dev deployment at localhost:3000.
+- This runs the k6 tests against the locally deployed app, and reports the results both directly to stdout, and to grafana cloud. When ready to test a deployed app on Vercel or elsewhere, switch out the **BASE_URL** variable for the production (or staging) url of the deployed app under test.
+
 ---
 
 ## 📚 Learn More
