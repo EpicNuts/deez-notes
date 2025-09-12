@@ -17,6 +17,10 @@
 /.next/
 /out/
 
+# prisma
+/prisma/client/
+/src/db/client/
+
 # production
 /build
 
@@ -31,7 +35,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+.env.local
 cypress.env.*
 
 # vercel
