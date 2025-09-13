@@ -84,14 +84,14 @@ To run the app locally:
 
 ### 🧑‍💻 Useful Scripts
 
-`npm run build`      Generates the Prisma Client and builds the Application
-`npm run migrate`    Ensures your Prisma Client is up to date and your local database schema matches your code, using the environment variables from [.env.local](/.env.local).|
-`npm run lint`       Executes Next.js’s built-in ESLint integration to check for styling issues.
-`npm run dev`        Start the development server, which utilizes [Turbopack](https://turbo.build/pack) for a faster refresh and hot reloading.
-`npm run start`      Start the production server
-`npm run playwright` Run Playwright tests
-`npm run cypress`    Run Cypress tests in headless mode
-`npm run e2e`        Run Cypress and Playwright tests sequentially
+- `npm run build`       Generates the Prisma Client and builds the Application
+- `npm run migrate`    Ensures your Prisma Client is up to date and your local database schema matches your code, using the environment variables from [.env.local](/.env.local).
+- `npm run lint`       Executes Next.js’s built-in ESLint integration to check for styling issues.
+- `npm run dev`        Start the development server, which utilizes [Turbopack](https://turbo.build/pack) for a faster refresh and hot reloading.
+- `npm run start`      Start the production server
+- `npm run playwright` Run Playwright tests
+- `npm run cypress`    Run Cypress tests in headless mode
+- `npm run e2e`        Run Cypress and Playwright tests sequentially
 
 ---
 
