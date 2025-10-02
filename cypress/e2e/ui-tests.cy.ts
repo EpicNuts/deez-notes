@@ -17,8 +17,7 @@ describe('Deez Notes Application', () => {
     it('should display correct initial landing page state', () => {
       notesPage.shouldShowUnauthenticatedState();
       notesPage.openSidebar();
-      
-      // WHY: Unauthenticated users should see login prompt, not notes content
+      // Unauthenticated users should see login prompt, not notes content
       notesPage.getSidebarUnauthText().should('contain', 'Login');
     });
 
