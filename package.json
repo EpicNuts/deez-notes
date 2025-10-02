@@ -10,6 +10,8 @@
     "lint": "next lint",
     "migrate": "npx prisma generate && env $(cat .env.local | xargs) npx prisma migrate dev",
 
+    "setup-test-user": "env $(cat .env.local | xargs) node scripts/setup-test-user.js",
+    
     "cypress:open": "cypress open",
     "cypress": "cypress run",
 

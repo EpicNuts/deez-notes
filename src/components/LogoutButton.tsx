@@ -29,6 +29,7 @@ function LogoutButton() {
 
   return (
     <Button
+      data-testid="logout-button"
       variant="outline"
       onClick={handleLogout}
       disabled={loading}
