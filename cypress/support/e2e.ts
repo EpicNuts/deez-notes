@@ -13,8 +13,11 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import commands.js using ES2015 syntax:
+// Import commands using ES2015 syntax:
 import './commands'
+
+// Import type declarations for TypeScript support
+/// <reference path="./commands.d.ts" />
 
 beforeEach(() => {
     cy.intercept(`**`, req => {
