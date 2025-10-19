@@ -1,6 +1,6 @@
 /**
  * Enhanced Page Object for Deez Notes Application
- * 
+ *
  * WHY this structure:
  * 1. Separation of Concerns: Element getters vs. action methods vs. validation methods
  * 2. Chainable Interface: Methods return 'this' for fluent API
@@ -10,39 +10,35 @@
 export class NotesPage {
   // ===== NAVIGATION METHODS =====
   // These handle complex navigation flows with built-in validations
-  
+
   visit() {
-    cy.visit('/');
+    cy.visit("/");
     this.waitForPageLoad();
     return this;
   }
 
   visitLoginPage() {
-    cy.visit('/login');
+    cy.visit("/login");
     this.waitForLoginPageLoad();
     return this;
   }
 
   visitSignUpPage() {
-    cy.visit('/sign-up');
+    cy.visit("/sign-up");
     this.waitForSignUpPageLoad();
     return this;
   }
 
   // ===== AUTHENTICATION ACTIONS =====
   // High-level methods that encapsulate complex user workflows
-  
+
   loginWithCredentials(email: string, password: string) {
-    this.visitLoginPage()
-        .fillLoginForm(email, password)
-        .submitLoginForm();
+    this.visitLoginPage().fillLoginForm(email, password).submitLoginForm();
     return this;
   }
 
   signUpWithCredentials(email: string, password: string) {
-    this.visitSignUpPage()
-        .fillSignUpForm(email, password)
-        .submitSignUpForm();
+    this.visitSignUpPage().fillSignUpForm(email, password).submitSignUpForm();
     return this;
   }
 
@@ -54,7 +50,7 @@ export class NotesPage {
 
   // ===== FORM INTERACTION METHODS =====
   // These encapsulate form interactions with proper error handling
-  
+
   fillLoginForm(email: string, password: string) {
     this.getEmailInput().clear().type(email);
     this.getPasswordInput().clear().type(password);
@@ -79,7 +75,7 @@ export class NotesPage {
 
   // ===== NOTE MANAGEMENT ACTIONS =====
   // These represent user goals, not just button clicks
-  
+
   createNewNote() {
     this.getNewNoteButton().click();
     this.waitForNoteCreation();
@@ -100,7 +96,7 @@ export class NotesPage {
 
   // ===== SIDEBAR INTERACTIONS =====
   // Sidebar has complex state management that needs proper abstractions
-  
+
   openSidebar() {
     this.getSidebarTrigger().click();
     cy.wait(500); // Small wait for sidebar animation
@@ -122,7 +118,7 @@ export class NotesPage {
 
   // ===== ELEMENT GETTERS =====
   // Centralized selectors with consistent naming
-  
+
   // Header Elements
   getSidebarTrigger() {
     return cy.get('[data-testid="sidebar-trigger"]');
@@ -158,11 +154,11 @@ export class NotesPage {
 
   // Form Elements
   getEmailInput() {
-    return cy.get('#email');
+    return cy.get("#email");
   }
 
   getPasswordInput() {
-    return cy.get('#password');
+    return cy.get("#password");
   }
 
   getLoginButton() {
@@ -205,75 +201,75 @@ export class NotesPage {
 
   // Toast Elements
   getToastMessage() {
-    return cy.get('[data-sonner-toast]');
+    return cy.get("[data-sonner-toast]");
   }
 
   // ===== VALIDATION METHODS =====
   // These encapsulate common assertions and make tests more readable
-  
+
   shouldShowUnauthenticatedState() {
-    this.getSignUpLink().should('be.visible');
-    this.getLoginLink().should('be.visible');
+    this.getSignUpLink().should("be.visible");
+    this.getLoginLink().should("be.visible");
     this.getSidebarTrigger().click();
-    this.getSidebarUnauthText().should('be.visible');
+    this.getSidebarUnauthText().should("be.visible");
     return this;
   }
 
   shouldShowAuthenticatedState() {
-    this.getLogoutButton().should('be.visible');
-    this.getNewNoteButton().should('be.visible');
+    this.getLogoutButton().should("be.visible");
+    this.getNewNoteButton().should("be.visible");
     return this;
   }
 
   shouldShowToast(message: string) {
-    this.getToastMessage().should('contain', message);
+    this.getToastMessage().should("contain", message);
     return this;
   }
 
   shouldBeOnNotePage(noteId?: string) {
     if (noteId) {
-      cy.url().should('include', `noteId=${noteId}`);
+      cy.url().should("include", `noteId=${noteId}`);
     }
-    this.getNoteTextInput().should('be.visible');
+    this.getNoteTextInput().should("be.visible");
     return this;
   }
 
   shouldHaveNoteContent(content: string) {
-    this.getNoteTextInput().should('have.value', content);
+    this.getNoteTextInput().should("have.value", content);
     return this;
   }
 
   // ===== WAIT METHODS =====
   // Proper wait strategies prevent flaky tests
-  
+
   waitForPageLoad() {
     // Ensures all critical elements are loaded before proceeding
-    this.getLogo().should('be.visible');
-    this.getSidebarTrigger().should('be.visible');
+    this.getLogo().should("be.visible");
+    this.getSidebarTrigger().should("be.visible");
   }
 
   waitForLoginPageLoad() {
     // Wait for page to load and form elements to be interactive
-    cy.url().should('include', '/login');
-    cy.get('[data-testid="auth-form"]').should('be.visible');
-    this.getEmailInput().should('be.visible');
-    this.getPasswordInput().should('be.visible');
-    cy.get('form [data-testid="login-button"]').should('be.visible');
+    cy.url().should("include", "/login");
+    cy.get('[data-testid="auth-form"]').should("be.visible");
+    this.getEmailInput().should("be.visible");
+    this.getPasswordInput().should("be.visible");
+    cy.get('form [data-testid="login-button"]').should("be.visible");
   }
 
   waitForSignUpPageLoad() {
     // Wait for page to load and form elements to be interactive
-    cy.url().should('include', '/sign-up');
-    cy.get('[data-testid="sign-up-form"]').should('be.visible');
-    this.getEmailInput().should('be.visible');
-    this.getPasswordInput().should('be.visible');
-    cy.get('form [data-testid="sign-up-button"]').should('be.visible');
+    cy.url().should("include", "/sign-up");
+    cy.get('[data-testid="sign-up-form"]').should("be.visible");
+    this.getEmailInput().should("be.visible");
+    this.getPasswordInput().should("be.visible");
+    cy.get('form [data-testid="sign-up-button"]').should("be.visible");
   }
 
   waitForNoteCreation() {
     // Note creation involves redirect and state update
-    cy.url().should('include', 'noteId=');
-    this.shouldShowToast('New note created');
+    cy.url().should("include", "noteId=");
+    this.shouldShowToast("New note created");
   }
 
   waitForAutoSave() {
@@ -284,27 +280,27 @@ export class NotesPage {
   waitForSidebarOpen() {
     // Only authenticated users have sidebar-group-content
     // Check if user is authenticated first
-    cy.get('body').then(($body) => {
+    cy.get("body").then(($body) => {
       if ($body.find('[data-testid="new-note-button"]').length > 0) {
         // User is authenticated - expect sidebar content
-        this.getSidebarGroupContent().should('be.visible');
+        this.getSidebarGroupContent().should("be.visible");
       } else {
         // User is unauthenticated - expect login prompt
-        this.getSidebarUnauthText().should('be.visible');
+        this.getSidebarUnauthText().should("be.visible");
       }
     });
   }
 
   waitForSidebarClose() {
-    this.getSidebarGroupContent().should('not.exist');
+    this.getSidebarGroupContent().should("not.exist");
   }
 
   waitForNoteSelection(noteId: string) {
-    cy.url().should('include', `noteId=${noteId}`);
+    cy.url().should("include", `noteId=${noteId}`);
   }
 
   waitForLogoutCompletion() {
-    this.getLoginLink().should('be.visible');
-    this.getSignUpLink().should('be.visible');
+    this.getLoginLink().should("be.visible");
+    this.getSignUpLink().should("be.visible");
   }
 }

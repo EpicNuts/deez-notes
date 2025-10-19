@@ -1,27 +1,27 @@
-import { getUser } from "@/auth/server"
+import { getUser } from "@/auth/server";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupLabel,
-} from "@/components/ui/sidebar"
-import { prisma } from "@/db/prisma"
-import { Note } from "@prisma/client"
-import Link from "next/link"
-import SidebarGroupContent from "./SidebarGroupContent"
+} from "@/components/ui/sidebar";
+import { prisma } from "@/db/prisma";
+import { Note } from "@prisma/client";
+import Link from "next/link";
+import SidebarGroupContent from "./SidebarGroupContent";
 
 async function AppSidebar() {
-  const user = await getUser()
+  const user = await getUser();
 
-  let notes: Note[] = []
+  let notes: Note[] = [];
   if (user) {
     // Fetch notes for the user
     notes = await prisma.note.findMany({
-      where: { 
+      where: {
         authorId: user.id,
       },
-      orderBy: { 
-        updatedAt: "desc" 
+      orderBy: {
+        updatedAt: "desc",
       },
     });
   }
@@ -30,18 +30,14 @@ async function AppSidebar() {
     <Sidebar>
       <SidebarContent className="custom-scrollbar">
         <SidebarGroup />
-          {user ? ( null ) : (
-            <p 
-              className="text-center"
-              data-testid="sidebar-unauthenticated-text"
-            >
-              <Link href="/login" className="underline">
-                Login
-              </Link>{" "}
-                to see your notes
-              </p>
-           ) 
-          }
+        {user ? null : (
+          <p className="text-center" data-testid="sidebar-unauthenticated-text">
+            <Link href="/login" className="underline">
+              Login
+            </Link>{" "}
+            to see your notes
+          </p>
+        )}
 
         {/* Search Input and Notes */}
         <div className="flex flex-col gap-2">
@@ -51,7 +47,7 @@ async function AppSidebar() {
         <SidebarGroup />
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }
 
-export default AppSidebar
+export default AppSidebar;
