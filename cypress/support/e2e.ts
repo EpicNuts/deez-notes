@@ -17,6 +17,7 @@
 import "./commands";
 
 // Import type declarations for TypeScript support
+/// <reference types="cypress" />
 /// <reference path="./commands.d.ts" />
 
 beforeEach(() => {
