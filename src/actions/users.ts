@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { createClient } from "@/auth/server";
 import { prisma } from "@/db/prisma";
@@ -9,52 +9,52 @@ export const loginUserAction = async (email: string, password: string) => {
     const { auth } = await createClient();
 
     const { error } = await auth.signInWithPassword({
-      email, 
-      password
-    })
-    if (error) throw error
+      email,
+      password,
+    });
+    if (error) throw error;
 
-    return { errorMessage: null }
+    return { errorMessage: null };
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
-}
+};
 
 export const logOutAction = async () => {
   try {
     const { auth } = await createClient();
 
-    const { error } = await auth.signOut()
-    if (error) throw error
+    const { error } = await auth.signOut();
+    if (error) throw error;
 
-    return { errorMessage: null }
+    return { errorMessage: null };
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
-}
+};
 
 export const signUpAction = async (email: string, password: string) => {
   try {
     const { auth } = await createClient();
 
     const { data, error } = await auth.signUp({
-      email, 
-      password
-    })
-    if (error) throw error
+      email,
+      password,
+    });
+    if (error) throw error;
 
-    const userId = data.user?.id
-    if (!userId) throw new Error("Error signing up")
+    const userId = data.user?.id;
+    if (!userId) throw new Error("Error signing up");
 
     await prisma.user.create({
       data: {
         id: userId,
         email,
       },
-    })
+    });
 
-    return { errorMessage: null }
+    return { errorMessage: null };
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
-}
+};

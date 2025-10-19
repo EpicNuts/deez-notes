@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { User } from "@supabase/supabase-js";
 import { Button } from "./ui/button";
@@ -11,28 +11,28 @@ import { createNoteAction } from "@/actions/notes";
 
 type Props = {
   user: User | null;
-}
+};
 
 function NewNoteButton({ user }: Props) {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [loading, setLoading] = useState(false)
-  
+  const [loading, setLoading] = useState(false);
+
   const handleClickNewNoteButton = async () => {
     if (!user) {
-      router.push("/login")
+      router.push("/login");
     } else {
-      setLoading(true)
+      setLoading(true);
 
-      const uuid = uuidv4()
-      await createNoteAction(uuid)
-      router.push(`/?noteId=${uuid}`)
+      const uuid = uuidv4();
+      await createNoteAction(uuid);
+      router.push(`/?noteId=${uuid}`);
 
-      toast.success("New note created")
+      toast.success("New note created");
 
-      setLoading(false) 
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Button
@@ -44,7 +44,7 @@ function NewNoteButton({ user }: Props) {
     >
       {loading ? <Loader2 className="animate-spin" /> : "New Note"}
     </Button>
-  ); 
+  );
 }
 
-export default NewNoteButton
+export default NewNoteButton;

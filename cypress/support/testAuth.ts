@@ -1,6 +1,6 @@
 /**
  * Simple Test User Management
- * 
+ *
  * Provides clean utilities for real authentication testing.
  * No mocking - tests actual auth flow with real Supabase integration.
  */
@@ -14,13 +14,15 @@ export interface TestUser {
  * Get test user credentials from environment
  */
 export function getTestUser(): TestUser {
-  const email = Cypress.env('TEST_USER_EMAIL');
-  const password = Cypress.env('TEST_USER_PASSWORD');
-  
+  const email = Cypress.env("TEST_USER_EMAIL");
+  const password = Cypress.env("TEST_USER_PASSWORD");
+
   if (!email || !password) {
-    throw new Error('Test user credentials not found. Set CYPRESS_TEST_USER_EMAIL and CYPRESS_TEST_USER_PASSWORD');
+    throw new Error(
+      "Test user credentials not found. Set CYPRESS_TEST_USER_EMAIL and CYPRESS_TEST_USER_PASSWORD",
+    );
   }
-  
+
   return { email, password };
 }
 
@@ -38,15 +40,15 @@ export function clearAuthState(): void {
  */
 export function createTestUser(): Cypress.Chainable<TestUser> {
   const user = getTestUser();
-  
-  cy.visit('/sign-up');
-  cy.get('#email').type(user.email);
-  cy.get('#password').type(user.password);
+
+  cy.visit("/sign-up");
+  cy.get("#email").type(user.email);
+  cy.get("#password").type(user.password);
   cy.get('[data-testid="sign-up-button"]').click();
-  
+
   // With email verification disabled, should redirect on success
-  cy.url({ timeout: 10000 }).should('not.include', '/sign-up');
-  
+  cy.url({ timeout: 10000 }).should("not.include", "/sign-up");
+
   return cy.wrap(user);
 }
 
@@ -55,15 +57,15 @@ export function createTestUser(): Cypress.Chainable<TestUser> {
  */
 export function loginTestUser(): Cypress.Chainable<TestUser> {
   const user = getTestUser();
-  
-  cy.visit('/login');
-  cy.get('#email').type(user.email);
-  cy.get('#password').type(user.password);
+
+  cy.visit("/login");
+  cy.get("#email").type(user.email);
+  cy.get("#password").type(user.password);
   cy.get('[data-testid="login-button"]').click();
-  
+
   // Should redirect away from login on success
-  cy.url({ timeout: 10000 }).should('not.include', '/login');
-  
+  cy.url({ timeout: 10000 }).should("not.include", "/login");
+
   return cy.wrap(user);
 }
 
@@ -72,7 +74,7 @@ export function loginTestUser(): Cypress.Chainable<TestUser> {
  */
 export function logoutTestUser(): void {
   cy.get('[data-testid="logout-button"]').click();
-  
+
   // Should redirect to unauthenticated state
-  cy.url().should('not.include', '/notes');
+  cy.url().should("not.include", "/notes");
 }

@@ -14,14 +14,16 @@
 // ***********************************************************
 
 // Import commands using ES2015 syntax:
-import './commands'
+import "./commands";
 
 // Import type declarations for TypeScript support
 /// <reference path="./commands.d.ts" />
 
 beforeEach(() => {
-    cy.intercept(`**`, req => {
-      req.headers['x-vercel-protection-bypass'] = Cypress.env('VERCEL_AUTOMATION_BYPASS_SECRET')
-      req.headers['x-vercel-set-bypass-cookie'] = 'true'
-    })
-})
+  cy.intercept(`**`, (req) => {
+    req.headers["x-vercel-protection-bypass"] = Cypress.env(
+      "VERCEL_AUTOMATION_BYPASS_SECRET",
+    );
+    req.headers["x-vercel-set-bypass-cookie"] = "true";
+  });
+});

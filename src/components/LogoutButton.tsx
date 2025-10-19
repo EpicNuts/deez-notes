@@ -1,30 +1,30 @@
-"use client"
+"use client";
 
-import { Loader2 } from "lucide-react"
-import { Button } from "./ui/button"
-import { useState } from "react"
-import { toast } from "sonner"
-import { useRouter } from "next/navigation"
-import { logOutAction } from "@/actions/users"
+import { Loader2 } from "lucide-react";
+import { Button } from "./ui/button";
+import { useState } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { logOutAction } from "@/actions/users";
 
 function LogoutButton() {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
-    setLoading(true)
+    setLoading(true);
 
-    const { errorMessage }  = await logOutAction()
+    const { errorMessage } = await logOutAction();
 
     if (!errorMessage) {
       toast.success("You have been successfully logged out");
-      router.push("/")
+      router.push("/");
     } else {
-      toast.error(errorMessage)
+      toast.error(errorMessage);
     }
 
-    setLoading(false)
+    setLoading(false);
   };
 
   return (
@@ -37,7 +37,7 @@ function LogoutButton() {
     >
       {loading ? <Loader2 className="animate-spin" /> : "Log Out"}
     </Button>
-  )
+  );
 }
 
-export default LogoutButton
+export default LogoutButton;

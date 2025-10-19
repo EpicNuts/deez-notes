@@ -6,14 +6,14 @@ import { prisma } from "@/db/prisma";
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
+};
 
 async function HomePage({ searchParams }: Props) {
   const noteIdParam = (await searchParams).noteId;
   const user = await getUser();
 
   const noteId = Array.isArray(noteIdParam)
-    ? noteIdParam! [0]
+    ? noteIdParam![0]
     : noteIdParam || "";
 
   const note = await prisma.note.findUnique({
@@ -29,10 +29,10 @@ async function HomePage({ searchParams }: Props) {
         <AskAIButton user={user} />
         <NewNoteButton user={user} />
       </div>
-      
-        <NoteTextInput noteId={noteId} startingNoteText={note?.text || ""} />
+
+      <NoteTextInput noteId={noteId} startingNoteText={note?.text || ""} />
     </div>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;
