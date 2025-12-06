@@ -1,6 +1,6 @@
 "use client";
 
-import { Note } from "@prisma/client";
+import { Note } from "@/db/client";
 import {
   SidebarGroupContent as SidebarGroupContentShadCN,
   SidebarMenu,
