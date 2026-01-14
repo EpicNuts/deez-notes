@@ -108,7 +108,7 @@ To run the app locally:
 - `npm run playwright` Run Playwright tests
 - `npm run cypress`    Run Cypress tests in headless mode
 - `npm run e2e`        Run Cypress and Playwright tests sequentially
-- `npm run setup-test-user`   create a new test user in Supabase
+- `npm run setup-test-user`   create a new test user in Supabase.
 
 ---
 
