@@ -3,7 +3,7 @@ import { NotesPage } from "../pages/notes_page";
 /**
  * Comprehensive Deez Notes Application Testing Suite
  */
-describe("Deez Notes Application", () => {
+describe("Deez Notes Application Tests", () => {
   const notesPage = new NotesPage();
 
   beforeEach(() => {
