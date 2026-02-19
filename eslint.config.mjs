@@ -94,6 +94,7 @@ export default [
       "cypress/**",
       "playwright/**",
       "k6/**",
+      "src/db/client/**", // Generated Prisma client files
     ],
   },
 ];
