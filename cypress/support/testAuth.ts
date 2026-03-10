@@ -1,8 +1,8 @@
 /**
- * Simple Test User Management
+ * Test User Data Management
  *
- * Provides clean utilities for real authentication testing.
- * No mocking - tests actual auth flow with real Supabase integration.
+ * Handles test user credentials and authentication state management.
+ * Does NOT contain UI interactions - use page objects for those.
  */
 
 export interface TestUser {
@@ -27,54 +27,34 @@ export function getTestUser(): TestUser {
 }
 
 /**
+ * Create a random user email for tests that require unique users, 
+ * using the base email from environment, with a to-the-second timestamp inserted 
+ * before the '@' symbol.
+ */
+export function createRandomUserEmail(): string {
+  const baseEmail = getTestUser().email;
+  
+  const [localPart, domain] = baseEmail.split("@");
+  const timestamp = Date.now();
+  return `${localPart}+${timestamp}@${domain}`;
+}
+
+/**
+ * Generate a random test user with a unique email for each test run, using the base email from environment.
+ * The password is the same for all test users, as defined in environment.
+ */
+export function getRandomTestUser(): TestUser {
+  return {
+    email: createRandomUserEmail(),
+    password: getTestUser().password, // Use the same password for all test users
+  };
+}
+
+/**
  * Clear authentication state between tests
  */
 export function clearAuthState(): void {
   cy.clearCookies();
   cy.clearLocalStorage();
   cy.clearAllSessionStorage();
-}
-
-/**
- * Create test user via sign-up form (real Supabase integration)
- */
-export function createTestUser(): Cypress.Chainable<TestUser> {
-  const user = getTestUser();
-
-  cy.visit("/sign-up");
-  cy.get("#email").type(user.email);
-  cy.get("#password").type(user.password);
-  cy.get('[data-testid="sign-up-button"]').click();
-
-  // With email verification disabled, should redirect on success
-  cy.url({ timeout: 10000 }).should("not.include", "/sign-up");
-
-  return cy.wrap(user);
-}
-
-/**
- * Login with test user credentials (real authentication flow)
- */
-export function loginTestUser(): Cypress.Chainable<TestUser> {
-  const user = getTestUser();
-
-  cy.visit("/login");
-  cy.get("#email").type(user.email);
-  cy.get("#password").type(user.password);
-  cy.get('[data-testid="login-button"]').click();
-
-  // Should redirect away from login on success
-  cy.url({ timeout: 10000 }).should("not.include", "/login");
-
-  return cy.wrap(user);
-}
-
-/**
- * Logout using the logout button (real logout flow)
- */
-export function logoutTestUser(): void {
-  cy.get('[data-testid="logout-button"]').click();
-
-  // Should redirect to unauthenticated state
-  cy.url().should("not.include", "/notes");
 }

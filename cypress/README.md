@@ -46,13 +46,13 @@ npm run cypress -- --spec "cypress/e2e/auth-flow.cy.ts"
 *Target: Week 1*
 
 #### 1.1 Authentication & Authorization Flow
-- [ ] **Complete login flow**
-  - [ ] Valid credentials login
-  - [ ] Invalid credentials error handling
-  - [ ] Password validation
-  - [ ] Email format validation
+- [x] **Complete login flow**
+  - [x] Valid credentials login
+  - [x] Invalid credentials error handling
+  - [x] Password validation
+  - [x] Email format validation
 - [ ] **Complete sign-up flow**
-  - [ ] Form display and validation
+  - [x] Form display and validation
   - [ ] Successful account creation
   - [ ] Duplicate email handling
   - [ ] Email confirmation workflow

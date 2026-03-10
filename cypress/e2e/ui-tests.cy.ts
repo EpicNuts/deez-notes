@@ -1,4 +1,4 @@
-import { NotesPage } from "../pages/notes_page";
+import { NotesPage } from "../pages/NotesPage";
 
 /**
  * Comprehensive Deez Notes Application Testing Suite
