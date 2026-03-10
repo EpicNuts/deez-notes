@@ -6,12 +6,6 @@ dotenv.config({ path: ".env.local" });
 
 export default defineConfig({
   e2e: {
-    // Reduce verbose output in test runner
-    defaultCommandTimeout: 10000,
-    requestTimeout: 10000,
-    responseTimeout: 10000,
-    pageLoadTimeout: 30000,
-    
     setupNodeEvents(on, config) {
       // implement node event listeners here
       on("task", {

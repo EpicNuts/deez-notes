@@ -50,7 +50,7 @@ async function Header() {
                 Sign Up
               </Link>
             </Button>
-            <Button data-testid="login-button" asChild variant="outline">
+            <Button data-testid="nav-login-button" asChild variant="outline">
               <Link href="/login">Login</Link>
             </Button>
           </>
