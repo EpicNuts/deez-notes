@@ -1,76 +1,70 @@
 /**
- * Real Authentication Testing
+ * Authentication User Journey Tests
  *
- * Tests the actual authentication implementation with real Supabase integration.
- * No mocking - this validates the complete auth flow.
+ * Focuses on end-to-end user workflows, not component details.
+ * Tests core user goals: signup, login, session management, security.
  */
 
-import {
-  getTestUser,
-  clearAuthState,
-  createTestUser,
-  loginTestUser,
-  logoutTestUser,
-} from "../support/testAuth";
+import { authWorkflows } from "../support/workflows";
+import { appState } from "../support/appState";
 
-describe.skip("Real Authentication Flow", () => {
+describe("🔐 Authentication User Journeys", () => {
   beforeEach(() => {
-    // Start each test with clean auth state
-    clearAuthState();
+    authWorkflows.clearSession();
   });
 
-  it("should create new user and login successfully", () => {
-    // Test the complete flow: create user → login → verify authenticated state
-
-    // Step 1: Create test user via sign-up
-    createTestUser().then((user) => {
-      cy.log(`✅ Created test user: ${user.email}`);
-
-      // Step 2: Should be redirected and authenticated after sign-up
-      cy.get('[data-testid="logout-button"]').should("be.visible");
-      cy.log("✅ User is authenticated after sign-up");
+  context("when a new user signs up", () => {    
+    it("should allow new user signup and access to notes", () => {
+      authWorkflows.signupUser().then((user) => {
+        cy.log(`New user created: ${user.email}`);
+        appState.shouldBeAuthenticated();
+        // Should be able to access notes functionality
+        cy.get('[data-testid="new-note-button"]').should("be.visible");
+      });
     });
   });
 
-  it("should login existing user successfully", () => {
-    // Ensure user exists first
-    createTestUser();
+  context("when an existing user logs in", () => {
+    it("should allow existing user login and access to notes", () => {
+      authWorkflows.loginUser().then((existingUser) => {
+        cy.url({ timeout: 15000 }).should("not.include", "/login");
+        appState.shouldBeAuthenticated();
+        cy.get('[data-testid="new-note-button"]').should("be.visible");
+        cy.log(`Existing user logged in: ${existingUser.email}`);
+      });
+    });
 
-    // Clear auth state and test login flow
-    clearAuthState();
-
-    // Test login with existing credentials
-    loginTestUser().then((user) => {
-      cy.log(`✅ Logged in test user: ${user.email}`);
-
-      // Verify authenticated state
-      cy.get('[data-testid="logout-button"]').should("be.visible");
-      cy.url().should("not.include", "/login");
+    it("should maintain session across page reloads", () => {
+      authWorkflows.signupUser();
+      // Reload page and verify still authenticated
+      cy.reload();
+      appState.shouldBeAuthenticated();
+      cy.log("Session persisted across reload");
     });
   });
 
-  it("should reject invalid credentials", () => {
-    const user = getTestUser();
-
-    cy.visit("/login");
-    cy.get("#email").type(user.email);
-    cy.get("#password").type("wrong-password-123");
-    cy.get('[data-testid="login-button"]').click();
-
-    // Should stay on login page
-    cy.url().should("include", "/login");
-    cy.log("✅ Correctly rejected invalid credentials");
+  context("when invalid credentials are provided", () => {
+    it("should reject invalid login credentials", () => {
+      cy.visit("/login");
+      cy.get("#email").type("wrong@example.com");
+      cy.get("#password").type("wrongpassword");
+      cy.get('[data-testid="login-button"]').click();
+      // Wait for form submission and check for error toast
+      cy.get('[data-sonner-toast]', { timeout: 10000 }).contains("Error").should("be.visible");
+      // Should stay on login page 
+      cy.url().should("include", "/login");
+      cy.log("Invalid credentials properly rejected");
+    });
   });
 
-  it("should logout successfully", () => {
-    // First ensure user is logged in
-    createTestUser();
-
-    // Test logout
-    logoutTestUser();
-
-    // Verify unauthenticated state
-    cy.get('[data-testid="logout-button"]').should("not.exist");
-    cy.log("✅ Successfully logged out");
+  context("when logging out", () => {
+    it("should logout and prevent access to protected features", () => {
+      authWorkflows.loginUser()
+      appState.shouldBeAuthenticated();
+      // Logout
+      authWorkflows.logout();
+      // Validate user unauthenticated
+      appState.shouldBeUnauthenticated();      
+    });
   });
 });

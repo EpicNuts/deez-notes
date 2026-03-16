@@ -1,4 +1,8 @@
 import { defineConfig } from "cypress";
+import dotenv from "dotenv";
+
+// Load environment variables from .env.local
+dotenv.config({ path: ".env.local" });
 
 export default defineConfig({
   e2e: {
@@ -35,8 +39,8 @@ export default defineConfig({
     baseUrl: "http://localhost:3000",
     env: {
       // Test user credentials from environment
-      testUserEmail: process.env.CYPRESS_TEST_USER_EMAIL,
-      testUserPassword: process.env.CYPRESS_TEST_USER_PASSWORD,
+      TEST_USER_EMAIL: process.env.CYPRESS_TEST_USER_EMAIL,
+      TEST_USER_PASSWORD: process.env.CYPRESS_TEST_USER_PASSWORD,
     },
   },
 });

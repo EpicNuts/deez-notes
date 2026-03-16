@@ -5,26 +5,11 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
 } from "@/components/ui/sidebar";
-import { prisma } from "@/db/prisma";
-import { Note } from "@/db/client";
 import Link from "next/link";
 import SidebarGroupContent from "./SidebarGroupContent";
 
 async function AppSidebar() {
   const user = await getUser();
-
-  let notes: Note[] = [];
-  if (user) {
-    // Fetch notes for the user
-    notes = await prisma.note.findMany({
-      where: {
-        authorId: user.id,
-      },
-      orderBy: {
-        updatedAt: "desc",
-      },
-    });
-  }
 
   return (
     <Sidebar>
@@ -41,7 +26,7 @@ async function AppSidebar() {
 
         {/* Search Input and Notes */}
         <div className="flex flex-col gap-2">
-          {user && <SidebarGroupContent notes={notes} />}
+          {user && <SidebarGroupContent />}
         </div>
 
         <SidebarGroup />

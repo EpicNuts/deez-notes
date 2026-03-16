@@ -12,36 +12,23 @@ import { useEffect, useMemo, useState } from "react";
 import Fuse from "fuse.js";
 import SelectNoteButton from "./SelectNoteButton";
 import DeleteNoteButton from "./DeleteNoteButton";
+import { useNotesList } from "@/providers/NotesListProvider";
 
-type Props = {
-  notes: Note[];
-};
-
-function SidebarGroupContent({ notes }: Props) {
+function SidebarGroupContent() {
+  const { notes, deleteNoteLocally } = useNotesList();
   const [isSearchExpanded, setIsSearchExpanded] = useState(false); // state to track the search box
   const [searchText, setSearchText] = useState("");
-  const [localNotes, setLocalNotes] = useState(notes);
-
-  useEffect(() => {
-    setLocalNotes(notes);
-  }, [notes]);
 
   const fuse = useMemo(() => {
-    return new Fuse(localNotes, {
+    return new Fuse(notes, {
       keys: ["text"],
       threshold: 0.4,
     });
-  }, [localNotes]);
+  }, [notes]);
 
   const filteredNotes = searchText
     ? fuse.search(searchText).map((result) => result.item)
-    : localNotes;
-
-  const deleteNoteLocally = (noteId: string) => {
-    setLocalNotes((prevNotes) =>
-      prevNotes.filter((note) => note.id !== noteId),
-    );
-  };
+    : notes;
 
   const handleSearchIconClick = () => {
     if (isSearchExpanded) {
