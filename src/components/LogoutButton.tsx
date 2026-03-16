@@ -19,6 +19,8 @@ function LogoutButton() {
 
     if (!errorMessage) {
       toast.success("You have been successfully logged out");
+      // Refresh server components to clear user notes
+      router.refresh();
       router.push("/");
     } else {
       toast.error(errorMessage);

@@ -5,16 +5,17 @@
  * Tests core user goals: signup, login, session management, security.
  */
 
-import { authWorkflows, appState } from "../support/workflows";
+import { authWorkflows } from "../support/workflows";
+import { appState } from "../support/appState";
 
 describe("🔐 Authentication User Journeys", () => {
   beforeEach(() => {
     authWorkflows.clearSession();
   });
 
-  context("when a new user signs up", () => {
+  context("when a new user signs up", () => {    
     it("should allow new user signup and access to notes", () => {
-      authWorkflows.authenticateUser().then((user) => {
+      authWorkflows.signupUser().then((user) => {
         cy.log(`New user created: ${user.email}`);
         appState.shouldBeAuthenticated();
         // Should be able to access notes functionality
@@ -25,7 +26,7 @@ describe("🔐 Authentication User Journeys", () => {
 
   context("when an existing user logs in", () => {
     it("should allow existing user login and access to notes", () => {
-      authWorkflows.loginExistingUser().then((existingUser) => {
+      authWorkflows.loginUser().then((existingUser) => {
         cy.url({ timeout: 15000 }).should("not.include", "/login");
         appState.shouldBeAuthenticated();
         cy.get('[data-testid="new-note-button"]').should("be.visible");
@@ -34,8 +35,7 @@ describe("🔐 Authentication User Journeys", () => {
     });
 
     it("should maintain session across page reloads", () => {
-      authWorkflows.authenticateUser();
-      
+      authWorkflows.signupUser();
       // Reload page and verify still authenticated
       cy.reload();
       appState.shouldBeAuthenticated();
@@ -49,10 +49,8 @@ describe("🔐 Authentication User Journeys", () => {
       cy.get("#email").type("wrong@example.com");
       cy.get("#password").type("wrongpassword");
       cy.get('[data-testid="login-button"]').click();
-      
       // Wait for form submission and check for error toast
       cy.get('[data-sonner-toast]', { timeout: 10000 }).contains("Error").should("be.visible");
-      
       // Should stay on login page 
       cy.url().should("include", "/login");
       cy.log("Invalid credentials properly rejected");
@@ -61,12 +59,10 @@ describe("🔐 Authentication User Journeys", () => {
 
   context("when logging out", () => {
     it("should logout and prevent access to protected features", () => {
-      authWorkflows.loginExistingUser()
+      authWorkflows.loginUser()
       appState.shouldBeAuthenticated();
-    
       // Logout
       authWorkflows.logout();
-      
       // Validate user unauthenticated
       appState.shouldBeUnauthenticated();      
     });

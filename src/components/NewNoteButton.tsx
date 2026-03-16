@@ -8,6 +8,7 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "sonner";
 import { createNoteAction } from "@/actions/notes";
+import { useNotesList } from "@/providers/NotesListProvider";
 
 type Props = {
   user: User | null;
@@ -15,6 +16,7 @@ type Props = {
 
 function NewNoteButton({ user }: Props) {
   const router = useRouter();
+  const { addNoteLocally } = useNotesList();
 
   const [loading, setLoading] = useState(false);
 
@@ -25,8 +27,22 @@ function NewNoteButton({ user }: Props) {
       setLoading(true);
 
       const uuid = uuidv4();
-      await createNoteAction(uuid);
+      
+      // Create the note locally first (instant UI update)
+      const newNote = {
+        id: uuid,
+        authorId: user.id,
+        text: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      addNoteLocally(newNote);
+
+      // Navigate to the new note immediately
       router.push(`/?noteId=${uuid}`);
+
+      // Then create it on the server in background
+      createNoteAction(uuid);
 
       toast.success("New note created");
 

@@ -6,95 +6,107 @@
  */
 
 import { getTestUser, getRandomTestUser, clearAuthState, TestUser } from "./testAuth";
+import { appState } from "./appState";
 
-/**
- * Authentication workflows that hide implementation complexity
- */
 export const authWorkflows = {
-  /**
-   * Get a user into an authenticated state (simplest path)
-   * Test doesn't care if it's via signup or login - just wants auth state
-   */
-  authenticateUser(): Cypress.Chainable<TestUser> {
-    const user = getRandomTestUser();
-    
-    // Go directly to signup (fastest path to auth state)
+  signupUser(user?: TestUser): Cypress.Chainable<TestUser> {
+    if (!user) {
+      user = getRandomTestUser();
+    }
     cy.visit("/sign-up");
     cy.get("#email").type(user.email);
     cy.get("#password").type(user.password);
     cy.get('[data-testid="sign-up-button"]').click();
-    
-    // Wait for auth success (redirect away from signup)
     cy.url({ timeout: 15000 }).should("not.include", "/sign-up");
-    
     return cy.wrap(user);
   },
 
-  /**
-   * Test the specific signup flow (when that's what you're actually testing)
-   */
-  signUpNewUser(): Cypress.Chainable<TestUser> {
-    const user = getRandomTestUser();
-    
-    cy.visit("/sign-up");
-    cy.get("#email").type(user.email);
-    cy.get("#password").type(user.password);
-    cy.get('[data-testid="sign-up-button"]').click();
-    
-    return cy.wrap(user);
-  },
-
-  /**
-   * Test the specific login flow (requires existing user)
-   */
-  loginExistingUser(): Cypress.Chainable<TestUser> {
-    const user = getTestUser(); // Use known test user
-    
+  loginUser(user?: TestUser): Cypress.Chainable<TestUser> {
+    if (!user) {
+      user = getTestUser(); // Use known test user
+    }
     cy.visit("/login");
     cy.get("#email").type(user.email);
     cy.get("#password").type(user.password);
     cy.get('[data-testid="login-button"]').click();
-    
-    // Wait for auth success
     cy.url({ timeout: 15000 }).should("not.include", "/login");
-    
     return cy.wrap(user);
   },
 
-  /**
-   * Get into unauthenticated state
-   */
   logout(): void {
     cy.get('[data-testid="logout-button"]').click();
-
-    // Wait for logout to complete (redirect to login or show login/signup options)
     cy.url({ timeout: 10000 }).should("not.include", "noteId=");
     cy.url({ timeout: 10000 }).should("eq", Cypress.config().baseUrl + "/");
   },
 
-  /**
-   * Clean state for test isolation
-   */
   clearSession(): void {
     clearAuthState();
   }
 };
 
 /**
- * App state assertions - what users actually care about
+ * Note management workflows - focus on user goals with notes
  */
-export const appState = {
-  shouldBeAuthenticated(): void {
-    cy.get('[data-testid="logout-button"]').should("be.visible");
-    cy.get('[data-testid="new-note-button"]').should("be.visible");
+export const noteWorkflows = {
+  createNoteAndVerifySidebarUpdate(): Cypress.Chainable<string> {
+    cy.get('[data-testid="sidebar-trigger"]').click();
+    return cy.get('[data-testid="sidebar-group-content"]').then($sidebar => {
+      const currentNoteCount = $sidebar.find('[data-testid*="select-note-button "]').length;  
+      // Create new note
+      cy.get('[data-testid="new-note-button"]').click();
+      // Sidebar should immediately show new note (no page refresh)
+      appState.shouldHaveNoteCountInSidebar(currentNoteCount + 1);
+      // Should navigate to new note
+      cy.url().should('include', 'noteId=');
+      // Return the noteId for further use
+      return cy.url().then(url => {
+        const noteId = new URL(url).searchParams.get('noteId');
+        if (!noteId) throw new Error('Expected noteId in URL but got null');
+        return cy.wrap(noteId);
+      });
+    });
   },
 
-  shouldBeUnauthenticated(): void {
-    cy.get('[href="/login"]').should("be.visible");
-    cy.get('[href="/sign-up"]').should("be.visible");
+  /**
+   * Delete a note and verify sidebar updates immediately 
+   */
+  deleteNoteAndVerifySidebarUpdate(): void {
+    // Open sidebar first to ensure we can count notes
+    cy.get('[data-testid="sidebar-trigger"]').click();
+    // Get current note count
+    cy.get('[data-testid="sidebar-group-content"]').then($sidebar => {
+      const currentNoteCount = $sidebar.find('[data-testid*="select-note-button "]').length;
+      if (currentNoteCount > 0) {
+        // Delete the current note (we should be viewing one)
+        cy.get('[data-testid="delete-note-button"]').click();
+        // Confirm deletion if dialog appears
+        cy.get('body').then($body => {
+          if ($body.find('[data-testid="confirm-delete-button"]').length > 0) {
+            cy.get('[data-testid="confirm-delete-button"]').click();
+          }
+        });
+        // Wait for navigation away from note (app navigates to "/")
+        cy.url().should('not.include', 'noteId=');
+        // Sidebar should immediately reflect change
+        appState.shouldHaveNoteCountInSidebar(currentNoteCount - 1);
+      }
+    });
   },
 
-  shouldShowError(): void {
-    cy.get('[data-sonner-toast]').contains("Error").should("be.visible");
+  /**
+   * Type text and verify sidebar shows updated text
+   */
+  typeTextAndVerifySidebarUpdate(text: string): void {
+    cy.get('[data-testid="note-text-input"]').clear().type(text);
+    // Wait for save (app has auto-save with debounce)
+    cy.wait(2000);
+    // Open sidebar to see the text update
+    cy.get('[data-testid="sidebar-trigger"]').click();
+    appState.getNoteId().then(noteId => {
+      appState.shouldShowNoteInSidebar(noteId);
+      // Sidebar should show updated text
+      appState.shouldShowNoteText(noteId, text);
+    });
   }
 };
+

@@ -43,6 +43,8 @@ function AuthForm({ type }: Props) {
 
       if (!errorMessage) {
         toast.success(description);
+        // Refresh server components to get fresh user notes
+        router.refresh();
         router.replace("/");
       } else {
         toast.error("Error");

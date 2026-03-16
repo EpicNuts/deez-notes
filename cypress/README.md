@@ -28,9 +28,15 @@ This document outlines our e2e testing strategy focused on **user journeys**, no
   - Security: invalid credentials rejection
   - Logout → protected route blocking
 
-### 🔧 **In Development**
-- **Note Management Journeys**: Planning phase
+### 🔧 **In Development**  
 - **AI Integration Journeys**: Planning phase
+
+### ✅ **Completed User Journeys - Phase 2**
+- **Note Management Flows**: `note-management.cy.ts` - **Ready for testing**
+  - User creates new note → sidebar updates immediately → note opens
+  - User performs note operations → sidebar reflects changes instantly  
+  - User deletes notes → sidebar updates without refresh
+  - User navigates between notes → consistent sidebar state
 
 ## 🚀 **Quick Start**
 
@@ -60,7 +66,8 @@ npm run cypress:open
 - Users can log out and lose access to protected areas
 
 #### 1.2 Note Management Journeys (Next)
-- **Note Creation Journey**: User can create new notes and access them immediately
+- **Note Creation Journey** ⭐: User creates new note → sidebar updates immediately → note opens
+- **Sidebar Update Journey** ⭐: User performs note operations → sidebar reflects changes instantly  
 - **Note Editing Journey**: User can modify notes with auto-save working
 - **Note Navigation Journey**: User can switch between multiple notes via sidebar
 - **Note Persistence Journey**: Notes survive page reloads and browser restarts

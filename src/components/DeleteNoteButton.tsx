@@ -52,6 +52,7 @@ function DeleteNoteButton({ noteId, deleteNoteLocally }: Props) {
         <Button
           className="absolute top-1/2 right-2 size-7 -translate-y-1/2 p-0 opacity-0 transition-opacity duration-300 group-hover/item:opacity-100 [&_svg]:size-3"
           variant="ghost"
+          data-testid={`delete-note-button ${noteId}`}
         >
           <Trash2 />
         </Button>
@@ -71,6 +72,7 @@ function DeleteNoteButton({ noteId, deleteNoteLocally }: Props) {
           <AlertDialogAction
             onClick={handleDeleteNote}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90 w-24"
+            data-testid="confirm-delete-button"
           >
             {isPending ? <Loader2 className="animate-spin" /> : "Delete"}
           </AlertDialogAction>
