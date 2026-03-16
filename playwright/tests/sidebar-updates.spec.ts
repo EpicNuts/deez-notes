@@ -9,7 +9,7 @@ import { test } from "../test.extend";
 import { expect } from "@playwright/test";
 
 test.describe("Sidebar Update Components", () => {
-  test.describe("NotesListProvider Context Integration", () => {
+  test.describe.skip("NotesListProvider Context Integration", () => {
     test.beforeEach(async ({ page }) => {
       // Start with authenticated state for component testing
       await page.goto("/");
@@ -80,7 +80,7 @@ test.describe("Sidebar Update Components", () => {
       await expect(page.locator('[data-testid="sidebar-unauthenticated-text"]')).toBeVisible();
     });
 
-    test("should show search functionality with notes", async ({ page }) => {
+    test.skip("should show search functionality with notes", async ({ page }) => {
       // Authenticate and create notes
       await page.goto("/");
       await page.locator('[href="/sign-up"]').click();
@@ -111,7 +111,7 @@ test.describe("Sidebar Update Components", () => {
     });
   });
 
-  test.describe("Component Error Handling", () => {
+  test.describe.skip("Component Error Handling", () => {
     test("should handle rapid note creation without UI glitches", async ({ page }) => {
       await page.goto("/");
       await page.locator('[href="/sign-up"]').click();

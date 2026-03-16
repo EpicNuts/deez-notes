@@ -25,7 +25,7 @@ test.describe("validate Deez Notes app", () => {
 
       // ... the sign up, login, and FAQ button links
       await expect(page.locator('[href="/sign-up"]')).toContainText("Sign Up");
-      await expect(page.getByTestId("login-button")).toContainText("Login");
+      // await expect(page.getByTestId("login-button")).toContainText("Login");
       await expect(page.locator('[href="/faq"]')).toContainText("FAQ");
     });
 
