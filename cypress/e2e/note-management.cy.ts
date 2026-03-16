@@ -15,32 +15,41 @@ describe("📝 Note Management User Journeys", () => {
     authWorkflows.signupUser().then((user) => {
       testUser = user;
       cy.log(`Test user for note management: ${testUser.email}`);
+      cy.get('[data-testid="sidebar-trigger"]').click();
     })
   });
 
-  it.only("should start with one default note", () => {
-    cy.get('[data-testid="sidebar-trigger"]').click();
-    appState.shouldHaveNoteCountInSidebar(1); // App creates one empty note by default
-    appState.getNoteId().then(noteId => {
-      appState.shouldShowNoteInSidebar(noteId);
-      appState.shouldBeOnNoteUrl(noteId);
+  context("when logging in with a new user for the first time", () => {
+    it.only("should only display the default note", () => {
+      appState.shouldHaveNoteCountInSidebar(1); // App creates one empty note by default
+      appState.getNoteId().then(noteId => {
+        appState.shouldBeOnNoteUrl(noteId);
+        appState.shouldShowNoteInSidebar(noteId);
+        appState.shouldShowDefaultTextInNotePreview(noteId); // Verify default text in sidebar preview
+      });
     });
-  });
-  
-  it("should create first note", () => {
-    noteWorkflows.createNoteAndVerifySidebarUpdate();
-    appState.shouldHaveNoteCountInSidebar(1);
-  });
-  
-  it("should add content to note", () => {
-    // Note from previous test exists
-    noteWorkflows.typeTextAndVerifySidebarUpdate("My content");
-  });
-  
-  it("should create second note", () => {
-    noteWorkflows.createNoteAndVerifySidebarUpdate().then((secondNoteId) => {
-      appState.shouldHaveNoteCountInSidebar(2); 
-      appState.shouldBeOnNoteUrl(secondNoteId);
+
+    it.only("should allow user to update the default note", () => {
+      appState.getNoteId().then(noteId => {
+        noteWorkflows.updateNoteText("This is my important note content");
+        appState.shouldShowNotePreviewText(noteId, "This is my important note content");
+      });
+    });
+
+    it("should allow user to create a new note", () => {
+    });
+    
+    it("should allow user to switch back to the default note", () => {
+    });
+
+    it("should allow user to delete the default note", () => {
+    });
+
+    it("should allow user to create a second note", () => {
+      noteWorkflows.createNoteAndVerifySidebarUpdate().then((secondNoteId) => {
+        appState.shouldHaveNoteCountInSidebar(2); 
+        appState.shouldBeOnNoteUrl(secondNoteId);
+      });
     });
   });
 

@@ -93,20 +93,20 @@ export const noteWorkflows = {
     });
   },
 
-  /**
-   * Type text and verify sidebar shows updated text
-   */
-  typeTextAndVerifySidebarUpdate(text: string): void {
+  updateNoteText(text: string): void {
     cy.get('[data-testid="note-text-input"]').clear().type(text);
     // Wait for save (app has auto-save with debounce)
     cy.wait(2000);
-    // Open sidebar to see the text update
-    cy.get('[data-testid="sidebar-trigger"]').click();
-    appState.getNoteId().then(noteId => {
-      appState.shouldShowNoteInSidebar(noteId);
-      // Sidebar should show updated text
-      appState.shouldShowNoteText(noteId, text);
-    });
+  },
+
+  /**
+   * Type text and verify sidebar shows updated text
+   */
+  typeTextAndVerifySidebarUpdate(noteId: string, text: string): void {
+    this.updateNoteText(text);
+    // Sidebar should show updated text
+    appState.shouldShowNoteInSidebar(noteId);
+    appState.shouldShowNotePreviewText(noteId, text);
   }
 };
 

@@ -58,16 +58,29 @@ export const appState = {
   /**
    * Sidebar state validations
    */
+  openSidebar(): void {
+    if (Cypress.$('[data-testid="sidebar-content"]').is(':visible')) {
+      // Sidebar is already open, do nothing
+      return;
+    }
+    cy.get('[data-testid="sidebar-trigger"]').click();
+  },
+
   shouldHaveNoteCountInSidebar(count: number): void {
     cy.get('[data-testid="sidebar-group-content"]')
       .find('[data-testid*="select-note-button "]')
       .should('have.length', count);
   },
 
-  shouldShowNoteText(noteId: string, text: string): void {
+  shouldShowNotePreviewText(noteId: string, text: string): void {
     // Verify text appears in sidebar (for real-time updates)
-    cy.get(`[data-testid="select-note-button ${noteId}"][data-testid="note-text"]`)
+    cy.get(`[data-testid="select-note-button ${noteId}"] [data-testid="note-text"]`)
       .should('contain', text.substring(0, 20)); // First 20 chars typically shown
+  },
+
+  shouldShowDefaultTextInNotePreview(noteId: string): void {
+    cy.get(`[data-testid="select-note-button ${noteId}"] [data-testid="note-text"]`)
+      .should('contain', "EMPTY NOTE"); // Default text for new notes
   },
 
   /**
