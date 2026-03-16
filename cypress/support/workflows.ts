@@ -49,7 +49,7 @@ export const authWorkflows = {
  */
 export const noteWorkflows = {
   createNoteAndVerifySidebarUpdate(): Cypress.Chainable<string> {
-    cy.get('[data-testid="sidebar-trigger"]').click();
+    appState.openSidebar()
     return cy.get('[data-testid="sidebar-group-content"]').then($sidebar => {
       const currentNoteCount = $sidebar.find('[data-testid*="select-note-button "]').length;  
       // Create new note
@@ -71,8 +71,7 @@ export const noteWorkflows = {
    * Delete a note and verify sidebar updates immediately 
    */
   deleteNoteAndVerifySidebarUpdate(): void {
-    // Open sidebar first to ensure we can count notes
-    cy.get('[data-testid="sidebar-trigger"]').click();
+    appState.openSidebar();
     // Get current note count
     cy.get('[data-testid="sidebar-group-content"]').then($sidebar => {
       const currentNoteCount = $sidebar.find('[data-testid*="select-note-button "]').length;

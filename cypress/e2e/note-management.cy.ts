@@ -8,19 +8,24 @@
 import { authWorkflows, noteWorkflows } from "../support/workflows";
 import { appState } from "../support/appState";
 
+// Generate unique session ID per test run
+const runSessionId = `new-user-first-time-${Date.now()}`;
+
 describe("📝 Note Management User Journeys", () => {
-  let testUser
-
-  beforeEach(() => {
-    authWorkflows.signupUser().then((user) => {
-      testUser = user;
-      cy.log(`Test user for note management: ${testUser.email}`);
-      cy.get('[data-testid="sidebar-trigger"]').click();
-    })
-  });
-
   context("when logging in with a new user for the first time", () => {
-    it.only("should only display the default note", () => {
+    beforeEach(() => {
+      // This will create the session on first call, then restore it on subsequent calls
+      cy.session(runSessionId, () => {
+        authWorkflows.signupUser(); 
+      }); 
+      
+      cy.visit('/');
+      cy.url({ timeout: 10000 }).should('include', 'noteId=');
+      // After session restore, just open sidebar
+      appState.openSidebar();
+    });
+
+    it("should only display the default note", () => {
       appState.shouldHaveNoteCountInSidebar(1); // App creates one empty note by default
       appState.getNoteId().then(noteId => {
         appState.shouldBeOnNoteUrl(noteId);
@@ -29,7 +34,7 @@ describe("📝 Note Management User Journeys", () => {
       });
     });
 
-    it.only("should allow user to update the default note", () => {
+    it("should allow user to update the default note", () => {
       appState.getNoteId().then(noteId => {
         noteWorkflows.updateNoteText("This is my important note content");
         appState.shouldShowNotePreviewText(noteId, "This is my important note content");
@@ -37,20 +42,24 @@ describe("📝 Note Management User Journeys", () => {
     });
 
     it("should allow user to create a new note", () => {
+      noteWorkflows.createNoteAndVerifySidebarUpdate().then((noteId) => {
+        appState.shouldBeOnNoteUrl(noteId);
+        appState.shouldShowNoteInSidebar(noteId);
+      })
     });
     
-    it("should allow user to switch back to the default note", () => {
-    });
+    // it("should allow user to switch back to the default note", () => {
+    // });
 
-    it("should allow user to delete the default note", () => {
-    });
+    // it("should allow user to delete the default note", () => {
+    // });
 
-    it("should allow user to create a second note", () => {
-      noteWorkflows.createNoteAndVerifySidebarUpdate().then((secondNoteId) => {
-        appState.shouldHaveNoteCountInSidebar(2); 
-        appState.shouldBeOnNoteUrl(secondNoteId);
-      });
-    });
+    // it("should allow user to create a second note", () => {
+    //   noteWorkflows.createNoteAndVerifySidebarUpdate().then((secondNoteId) => {
+    //     appState.shouldHaveNoteCountInSidebar(2); 
+    //     appState.shouldBeOnNoteUrl(secondNoteId);
+    //   });
+    // });
   });
 
 

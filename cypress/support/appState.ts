@@ -59,7 +59,7 @@ export const appState = {
    * Sidebar state validations
    */
   openSidebar(): void {
-    if (Cypress.$('[data-testid="sidebar-content"]').is(':visible')) {
+    if (Cypress.$('[data-testid="sidebar-group-content"]').is(':visible')) {
       // Sidebar is already open, do nothing
       return;
     }
